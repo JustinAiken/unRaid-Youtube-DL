@@ -1,0 +1,48 @@
+#! /bin/bash
+
+update_youtubedl() {
+  docker pull wernight/youtube-dl:latest
+}
+
+yt_download() {
+  local base_path="${1}"
+  local dl_type="${2}"
+  local id="${3}"
+
+  youtube_url=""
+  if [ $dl_type = "playlist" ]; then
+    youtube_url="https://www.youtube.com/playlist?list=$id"
+    path="/src/$base_path/%(upload_date)s - %(title)s.%(ext)s"
+  fi
+  if [ $dl_type = "channel" ]; then
+    youtube_url="https://www.youtube.com/channel/$id/playlists"
+    path="/src/$base_path/%(playlist)s/%(upload_date)s - %(title)s.%(ext)s"
+  fi
+  if [ $dl_type = "user" ]; then
+    path="/src/$base_path/%(playlist)s/%(upload_date)s - %(title)s.%(ext)s"
+    youtube_url="https://www.youtube.com/user/$id"
+  fi
+  if [ $dl_type = "video" ]; then
+    youtube_url="https://www.youtube.com/watch?v=$id"
+    path="/src/$base_path/%(upload_date)s - %(title)s.%(ext)s"
+  fi
+
+  echo "-- Download! $youtube_url -> $path"
+
+  docker run -it --rm \
+    --name=youtube-dl \
+    -v "$YOUTUBE_DIR:/src" \
+    wernight/youtube-dl \
+      -v \
+      --all-subs \
+      --embed-subs \
+      --add-metadata \
+      --ignore-errors \
+      --playlist-start 1 \
+      -f bestvideo+bestaudio \
+      -o "$path" \
+      --download-archive /src/archive.txt \
+      "$youtube_url" || echo "Download failed :/"
+
+  echo ""
+}
