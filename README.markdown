@@ -7,7 +7,7 @@
 
 1. Clone the repo (`git clone https://github.com/JustinAiken/unRaid-Youtube-DL.git`)
 2. `cd` in `cd unRaid-Youtube-DL`
-3. Copy example template: `cp dl.example.bash dl.bash`
+3. Copy example template: `cp dl.example.bash dl.bash && chmod +x dl.bash`
 4. Tweak to taste:
   - Edit `YOUTUBE_DIR` for where you want all the downloads to go
   - Add `yt_download` calls for each video, playlist, channel you want
