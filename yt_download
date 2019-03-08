@@ -1,7 +1,7 @@
 #! /bin/bash
 
 update_youtubedl() {
-  docker pull wernight/youtube-dl:latest
+  docker pull rayou/youtube-dl:latest
 }
 
 yt_download() {
@@ -32,7 +32,7 @@ yt_download() {
   docker run -it --rm \
     --name=youtube-dl \
     -v "$YOUTUBE_DIR:/src" \
-    wernight/youtube-dl \
+    rayou/youtube-dl \
       -v \
       --all-subs \
       --embed-subs \
