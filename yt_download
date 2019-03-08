@@ -39,7 +39,7 @@ yt_download() {
       --add-metadata \
       --ignore-errors \
       --playlist-start 1 \
-      -f bestvideo+bestaudio \
+      -f bestvideo+bestaudio/best \
       -o "$path" \
       --download-archive /src/archive.txt \
       "$youtube_url" || echo "Download failed :/"
